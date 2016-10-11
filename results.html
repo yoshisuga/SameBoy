@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title> Sameboy 0.8 prerelease (11cbe58) automation results – DMG Library</title>
+    <title> Sameboy 0.8 prerelease (5cca2a4) automation results – DMG Library</title>
     <style type="text/css">
         #wall *, body, html {padding: 0; margin:0;}
         #wall {text-align: center;}
@@ -17,23 +17,20 @@
     </style>
 </head>
 <body>
-<h1> Sameboy 0.8 prerelease (11cbe58) automation results – DMG Library</h1>
-<p>The first screenshot was taken after 40 seconds of running the game without pressing any button. The second screenshot was taken after 120 seconds, after attempting to start the game by repeatedly pressing Start and A. 1390 out of 1404 games passed.</p>
+<h1> Sameboy 0.8 prerelease (5cca2a4) automation results – DMG Library</h1>
+<p>The first screenshot was taken after 40 seconds of running the game without pressing any button. The second screenshot was taken after 120 seconds, after attempting to start the game by repeatedly pressing Start and A. 1394 out of 1404 games passed.</p>
+<p>Games incompatible with the GameBoy Color are tested in DMG mode</p>
 <h2> Failures </h2>
 <ol>
 <li>Makai Toushi SaGa (J) (V1.0) – Game probably stuck with blank screen. </li>
 <li>Momotarou Collection 2 (J) [S] – Cartridge type 0d is not yet supported.</li>
-<li>Pinball Deluxe (U) – A stack overflow has probably occurred.</li>
-<li>Pinball Fantasies (U) – A stack overflow has probably occurred.</li>
+<li>Pinball Deluxe (U) – The game is probably stuck in an FF loop.</li>
+<li>Pinball Fantasies (U) – The game is probably stuck in an FF loop.</li>
 <li>Pocket Family (J) [S] – Cartridge type fe is not yet supported.</li>
 <li>Pokemon Red-Blue 2-in-1 (Unl) [S] – Screenshots are identical</li>
-<li>Road Rash (U) [M][!] – Game probably stuck with blank screen. </li>
 <li>Tamagotchi 3 (J) [S] – Cartridge type fd is not yet supported.</li>
-<li>Tecmo Bowl (J) – A stack overflow has probably occurred.</li>
-<li>Tecmo Bowl (U) – A stack overflow has probably occurred.</li>
 <li>Tsuri Sensei (J) [S] – Illegal Opcode. Halting.</li>
 <li>Winner's Horse (J) [!] – Game probably stuck with blank screen. </li>
-<li>Zerd no Densetsu (J) – A stack overflow has probably occurred.</li>
 
 </ol>
 <div id="wall">
@@ -6397,12 +6394,12 @@ Wrote 00 to feff (Unused)
 
 </pre></div></div>
 <div class="result failure"><h2>Pinball Deluxe (U)</h2><div class="resultContent"><img src="40Seconds/Pinball Deluxe (U).png" /><img src="Started/Pinball Deluxe (U).png" /> <pre class="logs">Start attempt log:
-A stack overflow has probably occurred.
+The game is probably stuck in an FF loop.
 
 </pre></div></div>
 <div class="result"><h2>Pinball Dreams (UE) [!]</h2><div class="resultContent"><img src="40Seconds/Pinball Dreams (UE) [!].png" /><img src="Started/Pinball Dreams (UE) [!].png" /></div></div>
 <div class="result failure"><h2>Pinball Fantasies (U)</h2><div class="resultContent"><img src="40Seconds/Pinball Fantasies (U).png" /><img src="Started/Pinball Fantasies (U).png" /> <pre class="logs">Start attempt log:
-A stack overflow has probably occurred.
+The game is probably stuck in an FF loop.
 
 </pre></div></div>
 <div class="result"><h2>Pinball Mania (U)</h2><div class="resultContent"><img src="40Seconds/Pinball Mania (U).png" /><img src="Started/Pinball Mania (U).png" /></div></div>
@@ -7274,7 +7271,7 @@ Wrote 00 to e0ff (RAM Mirror)
 <div class="result"><h2>Riddick Bowe Boxing (U)</h2><div class="resultContent"><img src="40Seconds/Riddick Bowe Boxing (U).png" /><img src="Started/Riddick Bowe Boxing (U).png" /></div></div>
 <div class="result"><h2>Ring Rage (J)</h2><div class="resultContent"><img src="40Seconds/Ring Rage (J).png" /><img src="Started/Ring Rage (J).png" /></div></div>
 <div class="result"><h2>Ring Rage (U) [!]</h2><div class="resultContent"><img src="40Seconds/Ring Rage (U) [!].png" /><img src="Started/Ring Rage (U) [!].png" /></div></div>
-<div class="result failure"><h2>Road Rash (U) [M][!]</h2><div class="resultContent"><img src="40Seconds/Road Rash (U) [M][!].png" /><img src="Started/Road Rash (U) [M][!].png" /> <pre class="logs">40 Seconds log:
+<div class="result"><h2>Road Rash (U) [M][!]</h2><div class="resultContent"><img src="40Seconds/Road Rash (U) [M][!].png" /><img src="Started/Road Rash (U) [M][!].png" /> <pre class="logs">40 Seconds log:
 Wrote 00 to fea0 (Unused)
 Wrote 00 to fea1 (Unused)
 Wrote 00 to fea2 (Unused)
@@ -7335,7 +7332,8 @@ Wrote 00 to feaf (Unused)
 Wrote 00 to feb0 (Unused)
 Wrote 00 to feb1 (Unused)
 Wrote 00 to feb2 (Unused)
-Wrote 00 to feb3 (...ed)
+Wrote 00 to feb3 (... to feeb (Unused)
+Wrote 00 to feec (Unused)
 Wrote 00 to feed (Unused)
 Wrote 00 to feee (Unused)
 Wrote 00 to feef (Unused)
@@ -7354,7 +7352,6 @@ Wrote 00 to fefb (Unused)
 Wrote 00 to fefc (Unused)
 Wrote 00 to fefd (Unused)
 Wrote 00 to fefe (Unused)
-Game probably stuck with blank screen. 
 
 </pre></div></div>
 <div class="result"><h2>Roadster (J)</h2><div class="resultContent"><img src="40Seconds/Roadster (J).png" /><img src="Started/Roadster (J).png" /></div></div>
@@ -8373,14 +8370,8 @@ Screenshots are identical
 <div class="result"><h2>Taz-Mania (E)</h2><div class="resultContent"><img src="40Seconds/Taz-Mania (E).png" /><img src="Started/Taz-Mania (E).png" /></div></div>
 <div class="result"><h2>Taz-Mania (U)</h2><div class="resultContent"><img src="40Seconds/Taz-Mania (U).png" /><img src="Started/Taz-Mania (U).png" /></div></div>
 <div class="result"><h2>Taz-Mania 2 (U) [!]</h2><div class="resultContent"><img src="40Seconds/Taz-Mania 2 (U) [!].png" /><img src="Started/Taz-Mania 2 (U) [!].png" /></div></div>
-<div class="result failure"><h2>Tecmo Bowl (J)</h2><div class="resultContent"><img src="40Seconds/Tecmo Bowl (J).png" /><img src="Started/Tecmo Bowl (J).png" /> <pre class="logs">Start attempt log:
-A stack overflow has probably occurred.
-
-</pre></div></div>
-<div class="result failure"><h2>Tecmo Bowl (U)</h2><div class="resultContent"><img src="40Seconds/Tecmo Bowl (U).png" /><img src="Started/Tecmo Bowl (U).png" /> <pre class="logs">Start attempt log:
-A stack overflow has probably occurred.
-
-</pre></div></div>
+<div class="result"><h2>Tecmo Bowl (J)</h2><div class="resultContent"><img src="40Seconds/Tecmo Bowl (J).png" /><img src="Started/Tecmo Bowl (J).png" /></div></div>
+<div class="result"><h2>Tecmo Bowl (U)</h2><div class="resultContent"><img src="40Seconds/Tecmo Bowl (U).png" /><img src="Started/Tecmo Bowl (U).png" /></div></div>
 <div class="result"><h2>Teenage Mutant Hero Turtles - Back from the Sewers (E) [!]</h2><div class="resultContent"><img src="40Seconds/Teenage Mutant Hero Turtles - Back from the Sewers (E) [!].png" /><img src="Started/Teenage Mutant Hero Turtles - Back from the Sewers (E) [!].png" /> <pre class="logs">40 Seconds log:
 Wrote 00 to ff44 (HW Register)
 
@@ -10083,14 +10074,7 @@ Wrote 00 to ff44 (HW Register)
 
 </pre></div></div>
 <div class="result"><h2>Zen-Nippon Pro Wrestling Jet (J) [S]</h2><div class="resultContent"><img src="40Seconds/Zen-Nippon Pro Wrestling Jet (J) [S].png" /><img src="Started/Zen-Nippon Pro Wrestling Jet (J) [S].png" /></div></div>
-<div class="result failure"><h2>Zerd no Densetsu (J)</h2><div class="resultContent"><img src="40Seconds/Zerd no Densetsu (J).png" /><img src="Started/Zerd no Densetsu (J).png" /> <pre class="logs">40 Seconds log:
-A stack overflow has probably occurred.
-
-Start attempt log:
-A stack overflow has probably occurred.
-
-Screenshots are identical
-</pre></div></div>
+<div class="result"><h2>Zerd no Densetsu (J)</h2><div class="resultContent"><img src="40Seconds/Zerd no Densetsu (J).png" /><img src="Started/Zerd no Densetsu (J).png" /></div></div>
 <div class="result"><h2>Zerd no Densetsu 2 - Xerd!! Gishin no Ryouiki (J)</h2><div class="resultContent"><img src="40Seconds/Zerd no Densetsu 2 - Xerd!! Gishin no Ryouiki (J).png" /><img src="Started/Zerd no Densetsu 2 - Xerd!! Gishin no Ryouiki (J).png" /></div></div>
 <div class="result"><h2>Zettai Muteki Raijinou (J)</h2><div class="resultContent"><img src="40Seconds/Zettai Muteki Raijinou (J).png" /><img src="Started/Zettai Muteki Raijinou (J).png" /> <pre class="logs">40 Seconds log:
 Wrote 00 to feff (Unused)

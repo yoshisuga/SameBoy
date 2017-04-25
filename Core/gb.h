@@ -325,7 +325,7 @@ struct GB_gameboy_internal_s {
 
     /* Timing */
     GB_SECTION(timing,
-        int64_t last_vblank;
+        GB_PADDING(int64_t, last_vblank);
         uint32_t display_cycles;
         uint32_t div_cycles;
         GB_PADDING(uint32_t, tima_cycles);
@@ -366,7 +366,7 @@ struct GB_gameboy_internal_s {
         uint32_t background_palettes_rgb[0x20];
         uint32_t sprite_palettes_rgb[0x20];
         int16_t previous_lcdc_x;
-        uint8_t padding;
+        GB_PADDING(uint8_t, padding);
         bool effective_window_enabled;
         uint8_t effective_window_y;
         bool stat_interrupt_line;
@@ -394,12 +394,16 @@ struct GB_gameboy_internal_s {
         uint32_t *screen;
         GB_sample_t *audio_buffer;
         bool keys[GB_KEY_MAX];
+               
+        /* Timing */
+        uint64_t last_sync;
+        uint64_t cycles_since_last_sync;
 
-        /* Audio Specific */
+        /* Audio */
         unsigned int buffer_size;
         unsigned int sample_rate;
         unsigned int audio_position;
-        bool audio_stream_started; // detects first copy request to minimize lag
+        bool audio_stream_started; /* detects first copy request to minimize lag */
         volatile bool audio_copy_in_progress;
         volatile bool apu_lock;
 
@@ -416,6 +420,7 @@ struct GB_gameboy_internal_s {
         GB_rumble_callback_t rumble_callback;
         GB_serial_transfer_start_callback_t serial_transfer_start_callback;
         GB_serial_transfer_end_callback_t serial_transfer_end_callback;
+               
         /* IR */
         long cycles_since_ir_change;
         long cycles_since_input_ir_change;
@@ -486,6 +491,8 @@ void GB_free(GB_gameboy_t *gb);
 void GB_reset(GB_gameboy_t *gb);
 void GB_switch_model_and_reset(GB_gameboy_t *gb, bool is_cgb);
 void GB_run(GB_gameboy_t *gb);
+/* Returns the time passed since the last frame, in nanoseconds */
+uint64_t GB_run_frame(GB_gameboy_t *gb);
 
 typedef enum {
     GB_DIRECT_ACCESS_ROM,

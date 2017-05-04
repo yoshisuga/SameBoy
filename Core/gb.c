@@ -7,7 +7,9 @@
 #include <errno.h>
 #include <stdarg.h>
 #include <sys/time.h>
+#ifndef _WIN32
 #include <sys/select.h>
+#endif
 #include "gb.h"
 
 void GB_attributed_logv(GB_gameboy_t *gb, GB_log_attributes attributes, const char *fmt, va_list args)

@@ -51,7 +51,10 @@ bool GB_timing_sync_turbo(GB_gameboy_t *gb)
 
 void GB_timing_sync(GB_gameboy_t *gb)
 {
-    if (gb->turbo) return;
+    if (gb->turbo) {
+        gb->cycles_since_last_sync = 0;
+        return;
+    }
     /* Prevent syncing if not enough time has passed.*/
     if (gb->cycles_since_last_sync < LCDC_PERIOD / 4) return;
 
@@ -136,6 +139,7 @@ void GB_advance_cycles(GB_gameboy_t *gb, uint8_t cycles)
     // Not affected by speed boost
     gb->hdma_cycles += cycles;
     gb->apu_sample_cycles += cycles;
+    gb->apu_subsample_cycles += cycles;
     gb->apu.apu_cycles += cycles;
     gb->cycles_since_ir_change += cycles;
     gb->cycles_since_input_ir_change += cycles;

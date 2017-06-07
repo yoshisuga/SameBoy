@@ -2,12 +2,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include <unistd.h>
 #include <string.h>
 #include <errno.h>
 #include <stdarg.h>
-#include <sys/time.h>
 #ifndef _WIN32
+#include <unistd.h>
 #include <sys/select.h>
 #endif
 #include "gb.h"
@@ -36,7 +35,7 @@ void GB_attributed_log(GB_gameboy_t *gb, GB_log_attributes attributes, const cha
     va_end(args);
 }
 
-void GB_log(GB_gameboy_t *gb,const char *fmt, ...)
+void GB_log(GB_gameboy_t *gb, const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
@@ -93,6 +92,7 @@ void GB_init(GB_gameboy_t *gb)
     gb->input_callback = default_input_callback;
     gb->async_input_callback = default_async_input_callback;
     gb->cartridge_type = &GB_cart_defs[0]; // Default cartridge type
+    gb->audio_quality = 4;
     
     GB_reset(gb);
 }
@@ -107,6 +107,7 @@ void GB_init_cgb(GB_gameboy_t *gb)
     gb->input_callback = default_input_callback;
     gb->async_input_callback = default_async_input_callback;
     gb->cartridge_type = &GB_cart_defs[0]; // Default cartridge type
+    gb->audio_quality = 4;
 
     GB_reset(gb);
 }
@@ -169,7 +170,10 @@ int GB_load_boot_rom_cgb(GB_gameboy_t *gb)
 int GB_load_boot_rom(GB_gameboy_t *gb, const char *path)
 {
     FILE *f = fopen(path, "rb");
-    if (!f) return errno;
+    if (!f) {
+        GB_log(gb, "Could not open boot ROM: %s.\n", strerror(errno));
+        return errno;
+    }
     fread(gb->boot_rom, sizeof(gb->boot_rom), 1, f);
     fclose(f);
     return 0;
@@ -178,7 +182,10 @@ int GB_load_boot_rom(GB_gameboy_t *gb, const char *path)
 int GB_load_rom(GB_gameboy_t *gb, const char *path)
 {
     FILE *f = fopen(path, "rb");
-    if (!f) return errno;
+    if (!f) {
+        GB_log(gb, "Could not open ROM: %s.\n", strerror(errno));
+        return errno;
+    }
     fseek(f, 0, SEEK_END);
     gb->rom_size = (ftell(f) + 0x3FFF) & ~0x3FFF; /* Round to bank */
     /* And then round to a power of two */
@@ -220,6 +227,7 @@ int GB_save_state(GB_gameboy_t *gb, const char *path)
 {
     FILE *f = fopen(path, "wb");
     if (!f) {
+        GB_log(gb, "Could not open save state: %s.\n", strerror(errno));
         return errno;
     }
 
@@ -287,6 +295,7 @@ int GB_load_state(GB_gameboy_t *gb, const char *path)
 
     FILE *f = fopen(path, "rb");
     if (!f) {
+        GB_log(gb, "Could not open save state: %s.\n", strerror(errno));
         return errno;
     }
 
@@ -363,6 +372,7 @@ int GB_save_battery(GB_gameboy_t *gb, const char *path)
     if (gb->mbc_ram_size == 0 && !gb->cartridge_type->has_rtc) return 0; /* Claims to have battery, but has no RAM or RTC */
     FILE *f = fopen(path, "wb");
     if (!f) {
+        GB_log(gb, "Could not open save state: %s.\n", strerror(errno));
         return errno;
     }
 
@@ -674,12 +684,14 @@ void GB_switch_model_and_reset(GB_gameboy_t *gb, bool is_cgb)
 void *GB_get_direct_access(GB_gameboy_t *gb, GB_direct_access_t access, size_t *size, uint16_t *bank)
 {
     /* Set size and bank to dummy pointers if not set */
+    size_t dummy_size;
+    uint16_t dummy_bank;
     if (!size) {
-        size = alloca(sizeof(size));
+        size = &dummy_size;
     }
     
     if (!bank) {
-        bank = alloca(sizeof(bank));
+        bank = &dummy_bank;
     }
     
     

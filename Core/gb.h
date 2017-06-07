@@ -20,7 +20,7 @@
 #include "z80_cpu.h"
 #include "symbol_hash.h"
 
-#define GB_STRUCT_VERSION 10
+#define GB_STRUCT_VERSION 11
 
 enum {
     GB_REGISTER_AF,
@@ -325,12 +325,8 @@ struct GB_gameboy_internal_s {
 
     /* Timing */
     GB_SECTION(timing,
-        GB_PADDING(int64_t, last_vblank);
         uint32_t display_cycles;
         uint32_t div_cycles;
-        GB_PADDING(uint32_t, tima_cycles);
-        GB_PADDING(uint32_t, dma_cycles);
-        GB_aligned_double apu_sample_cycles;
         uint8_t tima_reload_state; /* After TIMA overflows, it becomes 0 for 4 cycles before actually reloading. */
         uint16_t serial_cycles;
     );
@@ -366,11 +362,19 @@ struct GB_gameboy_internal_s {
         uint32_t background_palettes_rgb[0x20];
         uint32_t sprite_palettes_rgb[0x20];
         int16_t previous_lcdc_x;
-        GB_PADDING(uint8_t, padding);
-        bool effective_window_enabled;
-        uint8_t effective_window_y;
         bool stat_interrupt_line;
         uint8_t effective_scx;
+        uint8_t current_window_line;
+        /* The LCDC will skip the first frame it renders after turning it on.
+           On the CGB, a frame is not skipped if the previous frame was skipped as well.
+           See https://www.reddit.com/r/EmuDev/comments/6exyxu/ */
+        enum {
+            GB_FRAMESKIP_LCD_TURNED_ON, // On a DMG, the LCD renders a blank screen during this state,
+                                        // on a CGB, the previous frame is repeated (which might be
+                                        // blank if the LCD was off for more than a few cycles)
+            GB_FRAMESKIP_FIRST_FRAME_SKIPPED, // This state is 'skipped' when emulating a DMG
+            GB_FRAMESKIP_SECOND_FRAME_RENDERED,
+        } frame_skip_state;
     );
 
     /* Unsaved data. This includes all pointers, as well as everything that shouldn't be on a save state */
@@ -400,12 +404,18 @@ struct GB_gameboy_internal_s {
         uint64_t cycles_since_last_sync;
 
         /* Audio */
-        unsigned int buffer_size;
-        unsigned int sample_rate;
-        unsigned int audio_position;
+        unsigned buffer_size;
+        unsigned sample_rate;
+        unsigned audio_position;
         bool audio_stream_started; /* detects first copy request to minimize lag */
         volatile bool audio_copy_in_progress;
         volatile bool apu_lock;
+        double apu_sample_cycles;
+        double apu_subsample_cycles;
+        GB_double_sample_t current_supersample;
+        unsigned n_subsamples;
+        unsigned audio_quality;
+        
 
         /* Callbacks */
         void *user_data;
